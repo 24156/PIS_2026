@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Annonces{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between mb-4"><h2><i class="bi bi-megaphone"></i> Annonces</h2>{% if user.is_admin or user.is_teacher %}<a href="{% url 'communication:annonce_create' %}" class="btn btn-primary">Publier</a>{% endif %}</div>
+{% for item in items %}
+<div class="card shadow-sm mb-3"><div class="card-body">
+<h5>{{ item.titre }} <span class="badge bg-secondary">{{ item.get_priorite_display }}</span></h5>
+<p>{{ item.contenu }}</p>
+<small class="text-muted">{{ item.created_at|date:"d/m/Y" }} — {{ item.auteur.get_full_name|default:item.auteur.username }}</small>
+</div></div>
+{% empty %}<div class="alert alert-info">Aucune annonce.</div>{% endfor %}
+{% endblock %}

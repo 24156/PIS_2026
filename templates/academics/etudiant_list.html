@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Étudiants{% endblock %}
+{% block content %}
+<h2 class="mb-4">Étudiants</h2>
+<table class="table table-striped"><thead><tr><th>Matricule</th><th>Nom</th><th>Filière</th><th>Niveau</th></tr></thead><tbody>
+{% for item in items %}<tr><td>{{ item.matricule }}</td><td>{{ item }}</td><td>{{ item.filiere }}</td><td>{{ item.niveau }}</td></tr>{% empty %}<tr><td colspan="4" class="text-muted">Aucun étudiant</td></tr>{% endfor %}
+</tbody></table>
+{% endblock %}

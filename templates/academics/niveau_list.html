@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Niveaux{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between mb-4"><h2>Niveaux</h2><a href="{% url 'academics:niveau_create' %}" class="btn btn-primary">Ajouter</a></div>
+<table class="table table-striped"><thead><tr><th>Code</th><th>Description</th></tr></thead><tbody>
+{% for item in items %}<tr><td>{{ item.code }}</td><td>{{ item.description }}</td></tr>{% empty %}<tr><td colspan="2" class="text-muted">Aucun niveau</td></tr>{% endfor %}
+</tbody></table>
+{% endblock %}

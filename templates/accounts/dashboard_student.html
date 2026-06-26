@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}Tableau de bord Étudiant{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-speedometer2"></i> Mon tableau de bord</h2>
+
+{% if etudiant %}
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="stat-card bg-primary text-white">
+            <div class="stat-label">Moyenne TP/TD</div>
+            <div class="stat-value">{{ moyenne }}/20</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card bg-success text-white">
+            <div class="stat-label">Filière</div>
+            <div class="stat-value fs-5">{{ etudiant.filiere.nom }}</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card bg-info text-white">
+            <div class="stat-label">Niveau</div>
+            <div class="stat-value fs-5">{{ etudiant.niveau.get_code_display }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-journal-check"></i> Mes rendus et notes</span>
+                <a href="{% url 'pedagogy:tp_td_list' %}" class="btn btn-sm btn-outline-primary">Voir tout</a>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for r in rendus %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{% if r.td %}{{ r.td.titre }}{% else %}{{ r.tp.titre }}{% endif %}</strong>
+                        <br><small class="text-muted">{{ r.type_devoir }} — {{ r.date_rendu|date:"d/m/Y" }}</small>
+                    </div>
+                    {% if r.note is not None %}
+                    <span class="badge bg-success">{{ r.note }}/20</span>
+                    {% else %}
+                    <span class="badge bg-warning text-dark">En correction</span>
+                    {% endif %}
+                </li>
+                {% empty %}
+                <li class="list-group-item text-muted">Aucun rendu pour le moment</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-calendar3"></i> Prochains cours</span>
+                <a href="{% url 'schedule:emploi_list' %}" class="btn btn-sm btn-outline-primary">Emploi du temps</a>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for creneau in emploi %}
+                <li class="list-group-item">
+                    <strong>{{ creneau.matiere.nom }}</strong>
+                    <br><small>{{ creneau.get_jour_display }} {{ creneau.heure_debut|time:"H:i" }} — Salle {{ creneau.salle }}</small>
+                </li>
+                {% empty %}
+                <li class="list-group-item text-muted">Aucun créneau</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header"><i class="bi bi-megaphone"></i> Annonces récentes</div>
+            <ul class="list-group list-group-flush">
+                {% for annonce in annonces %}
+                <li class="list-group-item">
+                    <strong>{{ annonce.titre }}</strong>
+                    <br><small class="text-muted">{{ annonce.created_at|date:"d/m/Y" }}</small>
+                </li>
+                {% empty %}
+                <li class="list-group-item text-muted">Aucune annonce</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-warning">Profil étudiant non configuré. Contactez l'administration.</div>
+{% endif %}
+{% endblock %}

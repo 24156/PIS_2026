@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}Bibliothèque{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between mb-4"><h2><i class="bi bi-collection"></i> Bibliothèque</h2>{% if user.is_admin or user.is_teacher %}<a href="{% url 'library:document_create' %}" class="btn btn-primary">Ajouter</a>{% endif %}</div>
+<form class="row g-2 mb-3" method="get"><div class="col-md-4"><input type="text" name="q" class="form-control" placeholder="Rechercher..." value="{{ q }}"></div><div class="col-md-2"><button class="btn btn-outline-primary">Filtrer</button></div></form>
+<div class="row g-3">{% for item in items %}<div class="col-md-4"><div class="card shadow-sm h-100"><div class="card-body"><h6>{{ item.titre }}</h6><p class="small text-muted">{{ item.auteur }} — {{ item.get_categorie_display }}</p></div><div class="card-footer">{% if item.fichier %}<a href="{% url 'library:document_download' item.pk %}" class="btn btn-sm btn-success">Télécharger</a>{% endif %}</div></div></div>{% empty %}<div class="col-12 alert alert-info">Aucun document.</div>{% endfor %}</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Facultés{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between mb-4"><h2>Facultés</h2><a href="{% url 'academics:faculte_create' %}" class="btn btn-primary">Ajouter</a></div>
+<table class="table table-striped"><thead><tr><th>Code</th><th>Nom</th><th>Actions</th></tr></thead><tbody>
+{% for item in items %}<tr><td>{{ item.code }}</td><td>{{ item.nom }}</td><td>
+<a href="{% url 'academics:faculte_edit' item.pk %}" class="btn btn-sm btn-outline-primary">Modifier</a>
+<a href="{% url 'academics:faculte_delete' item.pk %}" class="btn btn-sm btn-outline-danger">Supprimer</a>
+</td></tr>{% empty %}<tr><td colspan="3" class="text-muted">Aucune faculté</td></tr>{% endfor %}
+</tbody></table>
+{% endblock %}

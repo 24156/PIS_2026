@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Rendus du Devoir{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-collection"></i> Rendus pour : {{ devoir.titre }}</h2>
+    <a href="{{ back_url }}" class="btn btn-outline-secondary">Retour</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Liste des devoirs remis par les étudiants</h5>
+        <span class="badge bg-primary">{{ rendus|length }} rendu(s) au total</span>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Étudiant</th>
+                    <th>Matricule</th>
+                    <th>Date de rendu</th>
+                    <th>Fichier</th>
+                    <th>Note</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in rendus %}
+                <tr>
+                    <td><strong>{{ r.etudiant }}</strong></td>
+                    <td>{{ r.etudiant.matricule }}</td>
+                    <td>{{ r.date_rendu|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <a href="{% url 'pedagogy:rendu_download' r.pk %}" class="btn btn-sm btn-outline-success">
+                            <i class="bi bi-download"></i> Télécharger
+                        </a>
+                    </td>
+                    <td>
+                        {% if r.note is not None %}
+                        <span class="badge bg-success font-size-1.1">{{ r.note }}/20</span>
+                        {% if r.commentaire %}
+                        <div class="small text-muted mt-1" style="max-width: 250px;">{{ r.commentaire|truncatechars:50 }}</div>
+                        {% endif %}
+                        {% else %}
+                        <span class="badge bg-warning text-dark">Non corrigé</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'pedagogy:rendu_corriger' r.pk %}" class="btn btn-sm btn-primary">
+                            {% if r.note is not None %}<i class="bi bi-pencil-square"></i> Modifier la note{% else %}<i class="bi bi-check-square"></i> Corriger{% endif %}
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted py-4">Aucun étudiant n'a encore rendu ce travail.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

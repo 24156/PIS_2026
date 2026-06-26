@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Emploi du temps{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between mb-4"><h2><i class="bi bi-calendar3"></i> Emploi du temps</h2>{% if user.is_admin %}<a href="{% url 'schedule:emploi_create' %}" class="btn btn-primary">Ajouter</a>{% endif %}</div>
+<div class="row g-3">{% for jour_label, creneaux in emploi_grouped %}<div class="col-lg-4 col-md-6"><div class="card shadow-sm h-100"><div class="card-header bg-primary text-white">{{ jour_label }}</div><ul class="list-group list-group-flush">{% for c in creneaux %}<li class="list-group-item"><strong>{{ c.matiere.nom }}</strong><br><small>{{ c.heure_debut|time:"H:i" }} - {{ c.heure_fin|time:"H:i" }} | Salle {{ c.salle }}</small></li>{% empty %}<li class="list-group-item text-muted">Libre</li>{% endfor %}</ul></div></div>{% endfor %}</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Tableau de bord Enseignant{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-speedometer2"></i> Tableau de bord — Enseignant</h2>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3"><div class="stat-card bg-primary text-white"><div class="stat-value">{{ mes_cours }}</div><div class="stat-label">Cours</div></div></div>
+    <div class="col-md-3"><div class="stat-card bg-success text-white"><div class="stat-value">{{ mes_tds }}</div><div class="stat-label">TD</div></div></div>
+    <div class="col-md-3"><div class="stat-card bg-info text-white"><div class="stat-value">{{ mes_tps }}</div><div class="stat-label">TP</div></div></div>
+    <div class="col-md-3"><div class="stat-card bg-warning text-dark"><div class="stat-value">{{ rendus_en_attente }}</div><div class="stat-label">Rendus à corriger</div></div></div>
+</div>
+
+<div class="alert alert-info">
+    Moyenne des rendus corrigés : <strong>{{ moyenne_classe }}/20</strong> — {{ mes_etudiants }} étudiant(s)
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header"><i class="bi bi-megaphone"></i> Annonces</div>
+    <ul class="list-group list-group-flush">
+        {% for annonce in annonces %}
+        <li class="list-group-item"><strong>{{ annonce.titre }}</strong></li>
+        {% empty %}
+        <li class="list-group-item text-muted">Aucune annonce</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

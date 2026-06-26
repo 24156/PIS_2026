@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Tableau de bord Administrateur{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-speedometer2"></i> Tableau de bord — Administrateur</h2>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3 col-sm-6"><div class="stat-card bg-primary text-white"><div class="stat-value">{{ stats.etudiants }}</div><div class="stat-label">Étudiants</div></div></div>
+    <div class="col-md-3 col-sm-6"><div class="stat-card bg-success text-white"><div class="stat-value">{{ stats.enseignants }}</div><div class="stat-label">Enseignants</div></div></div>
+    <div class="col-md-3 col-sm-6"><div class="stat-card bg-info text-white"><div class="stat-value">{{ stats.cours }}</div><div class="stat-label">Cours</div></div></div>
+    <div class="col-md-3 col-sm-6"><div class="stat-card bg-secondary text-white"><div class="stat-value">{{ stats.tds }}</div><div class="stat-label">TD</div></div></div>
+    <div class="col-md-3 col-sm-6"><div class="stat-card bg-warning text-dark"><div class="stat-value">{{ stats.tps }}</div><div class="stat-label">TP</div></div></div>
+    <div class="col-md-3 col-sm-6"><div class="stat-card bg-dark text-white"><div class="stat-value">{{ stats.rendus }}</div><div class="stat-label">Rendus</div></div></div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header"><i class="bi bi-clock-history"></i> Dernières activités</div>
+            <ul class="list-group list-group-flush">
+                {% for act in activites %}
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>{{ act.action }} <small class="text-muted">— {{ act.module }}</small></span>
+                    <small class="text-muted">{{ act.created_at|date:"d/m/Y H:i" }}</small>
+                </li>
+                {% empty %}
+                <li class="list-group-item text-muted">Aucune activité</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header"><i class="bi bi-megaphone"></i> Annonces</div>
+            <ul class="list-group list-group-flush">
+                {% for annonce in annonces %}
+                <li class="list-group-item"><strong>{{ annonce.titre }}</strong></li>
+                {% empty %}
+                <li class="list-group-item text-muted">Aucune annonce</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

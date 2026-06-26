@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}TP{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between mb-4">
+    <h2><i class="bi bi-laptop"></i> Travaux Pratiques</h2>
+    {% if user.is_admin or user.is_teacher %}<a href="{% url 'pedagogy:tp_create' %}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Publier</a>{% endif %}
+</div>
+<div class="row g-3">
+{% for item in items %}
+<div class="col-md-6 col-lg-4">
+    <div class="card shadow-sm h-100">
+        <div class="card-body">
+            <h5>{{ item.titre }}</h5>
+            <p class="text-muted small">{{ item.matiere.nom }}</p>
+            <p>{{ item.description|truncatechars:80 }}</p>
+        </div>
+        <div class="card-footer bg-white d-flex gap-1 flex-wrap">
+            {% if item.fichier %}<a href="{{ item.fichier.url }}" class="btn btn-sm btn-outline-secondary" target="_blank"><i class="bi bi-download"></i></a>{% endif %}
+            {% if user.is_student %}<a href="{% url 'pedagogy:rendu_deposer_tp' item.pk %}" class="btn btn-sm btn-primary"><i class="bi bi-upload"></i> Rendre</a>{% endif %}
+            {% if user.is_admin or user.is_teacher %}<a href="{% url 'pedagogy:rendu_list_tp' item.pk %}" class="btn btn-sm btn-success"><i class="bi bi-inbox"></i> Rendus</a>{% endif %}
+        </div>
+    </div>
+</div>
+{% empty %}
+<div class="col-12"><div class="alert alert-info">Aucun TP.</div></div>
+{% endfor %}
+</div>
+{% endblock %}

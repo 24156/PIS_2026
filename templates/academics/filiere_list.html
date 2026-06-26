@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Filières{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between mb-4"><h2>Filières</h2><a href="{% url 'academics:filiere_create' %}" class="btn btn-primary">Ajouter</a></div>
+<table class="table table-striped"><thead><tr><th>Code</th><th>Nom</th><th>Département</th></tr></thead><tbody>
+{% for item in items %}<tr><td>{{ item.code }}</td><td>{{ item.nom }}</td><td>{{ item.departement }}</td></tr>{% empty %}<tr><td colspan="3" class="text-muted">Aucune filière</td></tr>{% endfor %}
+</tbody></table>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Mon profil{% endblock %}
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-person-circle"></i> Mon profil</h2>
+<div class="card shadow-sm">
+    <div class="card-body">
+        <p><strong>Nom :</strong> {{ user.get_full_name|default:user.username }}</p>
+        <p><strong>Email :</strong> {{ user.email|default:"—" }}</p>
+        <p><strong>Téléphone :</strong> {{ user.phone|default:"—" }}</p>
+        <p><strong>Rôle :</strong> {{ user.get_role_display }}</p>
+        {% if user.etudiant %}
+        <p><strong>Matricule :</strong> {{ user.etudiant.matricule }}</p>
+        <p><strong>Filière :</strong> {{ user.etudiant.filiere.nom }}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

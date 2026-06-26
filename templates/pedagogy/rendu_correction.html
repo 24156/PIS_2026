@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Correction du Devoir{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-check-square"></i> Évaluer le travail</h5>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Étudiant : {{ rendu.etudiant }}</h4>
+                    <p class="text-muted"><i class="bi bi-hash"></i> Matricule : {{ rendu.etudiant.matricule }}</p>
+                    <p class="text-muted"><i class="bi bi-journal-text"></i> Devoir : {% if rendu.td %}{{ rendu.td.titre }}{% else %}{{ rendu.tp.titre }}{% endif %}</p>
+                    <p class="text-muted"><i class="bi bi-clock"></i> Remis le : {{ rendu.date_rendu|date:"d/m/Y à H:i" }}</p>
+                    
+                    <div class="alert alert-info d-flex align-items-center justify-content-between mb-4">
+                        <span><i class="bi bi-file-earmark-arrow-down"></i> Fichier rendu :</span>
+                        <a href="{% url 'pedagogy:rendu_download' rendu.pk %}" class="btn btn-success btn-sm">
+                            <i class="bi bi-download"></i> Télécharger
+                        </a>
+                    </div>
+                    
+                    <form method="post" class="mt-4">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label font-weight-bold">Note (sur 20)</label>
+                            {{ form.note }}
+                            {% if form.note.errors %}
+                            <div class="text-danger small mt-1">{{ form.note.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label font-weight-bold">Commentaires de correction</label>
+                            {{ form.commentaire }}
+                            {% if form.commentaire.errors %}
+                            <div class="text-danger small mt-1">{{ form.commentaire.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{{ back_url }}" class="btn btn-outline-secondary">Retour</a>
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Enregistrer la note</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

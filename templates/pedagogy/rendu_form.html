@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Dépôt de Devoir{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-upload"></i> Déposer mon travail</h5>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ devoir.titre }}</h4>
+                    <p class="text-muted"><i class="bi bi-book"></i> Matière : {{ devoir.matiere.nom }}</p>
+                    <p class="text-muted"><i class="bi bi-person"></i> Enseignant : {{ devoir.enseignant }}</p>
+                    
+                    {% if devoir.description %}
+                    <div class="alert alert-light border mb-4">
+                        <strong>Description / Instructions :</strong>
+                        <p class="mb-0 mt-1">{{ devoir.description }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    <form method="post" enctype="multipart/form-data" class="mt-4">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label font-weight-bold">Fichier de rendu (PDF, ZIP, Word...)</label>
+                            {{ form.fichier }}
+                            {% if form.fichier.errors %}
+                            <div class="text-danger small mt-1">{{ form.fichier.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{{ back_url }}" class="btn btn-outline-secondary">Retour</a>
+                            <button type="submit" class="btn btn-success"><i class="bi bi-check-lg"></i> Envoyer le travail</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

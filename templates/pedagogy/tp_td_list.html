@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block title %}TP / TD{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-journal-check"></i> Mes TP et TD</h2>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-primary text-white"><i class="bi bi-journal-text"></i> Travaux Dirigés (TD)</div>
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Titre</th>
+                    <th>Matière</th>
+                    <th>Enseignant</th>
+                    <th>Publication</th>
+                    <th>Statut / Note</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in td_items %}
+                <tr>
+                    <td><strong>{{ row.devoir.titre }}</strong></td>
+                    <td>{{ row.devoir.matiere.nom }}</td>
+                    <td>{{ row.devoir.enseignant }}</td>
+                    <td>{{ row.devoir.date_publication|date:"d/m/Y" }}</td>
+                    <td>
+                        {% if row.rendu %}
+                            {% if row.rendu.note is not None %}
+                            <span class="badge bg-success">{{ row.rendu.note }}/20</span>
+                            {% if row.rendu.commentaire %}<div class="small text-muted">{{ row.rendu.commentaire|truncatechars:40 }}</div>{% endif %}
+                            {% else %}
+                            <span class="badge bg-info">Rendu — en correction</span>
+                            {% endif %}
+                        {% else %}
+                        <span class="badge bg-secondary">Non rendu</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if row.devoir.fichier %}
+                        <a href="{{ row.devoir.fichier.url }}" class="btn btn-sm btn-outline-secondary" target="_blank"><i class="bi bi-download"></i></a>
+                        {% endif %}
+                        <a href="{% url 'pedagogy:rendu_deposer_td' row.devoir.pk %}" class="btn btn-sm btn-primary">
+                            <i class="bi bi-upload"></i> Rendre
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="text-center text-muted py-3">Aucun TD disponible</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-success text-white"><i class="bi bi-laptop"></i> Travaux Pratiques (TP)</div>
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Titre</th>
+                    <th>Matière</th>
+                    <th>Enseignant</th>
+                    <th>Publication</th>
+                    <th>Statut / Note</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in tp_items %}
+                <tr>
+                    <td><strong>{{ row.devoir.titre }}</strong></td>
+                    <td>{{ row.devoir.matiere.nom }}</td>
+                    <td>{{ row.devoir.enseignant }}</td>
+                    <td>{{ row.devoir.date_publication|date:"d/m/Y" }}</td>
+                    <td>
+                        {% if row.rendu %}
+                            {% if row.rendu.note is not None %}
+                            <span class="badge bg-success">{{ row.rendu.note }}/20</span>
+                            {% if row.rendu.commentaire %}<div class="small text-muted">{{ row.rendu.commentaire|truncatechars:40 }}</div>{% endif %}
+                            {% else %}
+                            <span class="badge bg-info">Rendu — en correction</span>
+                            {% endif %}
+                        {% else %}
+                        <span class="badge bg-secondary">Non rendu</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if row.devoir.fichier %}
+                        <a href="{{ row.devoir.fichier.url }}" class="btn btn-sm btn-outline-secondary" target="_blank"><i class="bi bi-download"></i></a>
+                        {% endif %}
+                        <a href="{% url 'pedagogy:rendu_deposer_tp' row.devoir.pk %}" class="btn btn-sm btn-primary">
+                            <i class="bi bi-upload"></i> Rendre
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="text-center text-muted py-3">Aucun TP disponible</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

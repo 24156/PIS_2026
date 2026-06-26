@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Cours{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between mb-4">
+    <h2><i class="bi bi-file-earmark-text"></i> Cours</h2>
+    {% if user.is_admin or user.is_teacher %}<a href="{% url 'pedagogy:cours_create' %}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Publier</a>{% endif %}
+</div>
+<div class="row g-3">
+{% for item in items %}
+<div class="col-md-6 col-lg-4">
+    <div class="card shadow-sm h-100">
+        <div class="card-body">
+            <h5>{{ item.titre }}</h5>
+            <p class="text-muted small">{{ item.matiere.nom }} — {{ item.enseignant }}</p>
+            <p>{{ item.description|truncatechars:100 }}</p>
+        </div>
+        <div class="card-footer bg-white">
+            {% if item.fichier %}<a href="{% url 'pedagogy:cours_download' item.pk %}" class="btn btn-sm btn-success"><i class="bi bi-download"></i> Télécharger</a>{% endif %}
+            {% if user.is_admin or user.is_teacher %}<a href="{% url 'pedagogy:cours_edit' item.pk %}" class="btn btn-sm btn-outline-primary">Modifier</a>{% endif %}
+        </div>
+    </div>
+</div>
+{% empty %}
+<div class="col-12"><div class="alert alert-info">Aucun cours publié.</div></div>
+{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block auth_content %}
+<div class="login-page d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card shadow-lg login-card">
+        <div class="card-body p-5">
+            <div class="text-center mb-4">
+                <i class="bi bi-mortarboard-fill text-primary" style="font-size: 3rem;"></i>
+                <h3 class="mt-2">PIS Mauritanie</h3>
+                <p class="text-muted">Plateforme Éducative Universitaire</p>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                {% endif %}
+                <div class="mb-3">
+                    <label class="form-label">{{ form.username.label }}</label>
+                    {{ form.username }}
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">{{ form.password.label }}</label>
+                    {{ form.password }}
+                </div>
+                <button type="submit" class="btn btn-primary w-100 py-2">
+                    <i class="bi bi-box-arrow-in-right"></i> Se connecter
+                </button>
+            </form>
+            <hr>
+            <div class="text-center small text-muted">
+                <p class="mb-1"><strong>Comptes de démonstration :</strong></p>
+                <p class="mb-0">Admin : admin / admin123</p>
+                <p class="mb-0">Enseignant : prof.mahmoud / prof123</p>
+                <p class="mb-0">Étudiant : etudiant.ahmed / etud123</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

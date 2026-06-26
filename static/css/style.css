@@ -1,0 +1,33 @@
+:root {
+    --sidebar-width: 260px;
+}
+#sidebar {
+    min-width: var(--sidebar-width);
+    max-width: var(--sidebar-width);
+    min-height: 100vh;
+}
+#sidebar .nav-link {
+    color: rgba(255,255,255,.8);
+    padding: .6rem 1rem;
+    border-radius: .375rem;
+    display: block;
+    text-decoration: none;
+}
+#sidebar .nav-link:hover { background: rgba(255,255,255,.1); color: #fff; }
+.sidebar-section {
+    font-size: .75rem;
+    text-transform: uppercase;
+    color: #adb5bd;
+    padding: .75rem 1rem .25rem;
+    margin-top: .5rem;
+}
+.stat-card {
+    border-radius: .75rem;
+    padding: 1.25rem;
+    text-align: center;
+}
+.stat-value { font-size: 2rem; font-weight: 700; }
+.stat-label { opacity: .9; }
+.login-card { width: 100%; max-width: 420px; }
+.login-page { background: linear-gradient(135deg, #1e3a5f, #0d6efd); }
+.bg-purple { background-color: #6f42c1 !important; }

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Statistiques{% endblock %}
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-graph-up"></i> Statistiques</h2>
+<div class="row g-4"><div class="col-lg-6"><div class="card shadow-sm"><div class="card-header">Étudiants par faculté</div><div class="card-body"><canvas id="chartFaculte"></canvas></div></div></div><div class="col-lg-6"><div class="card shadow-sm"><div class="card-header">Inscriptions par année</div><div class="card-body"><canvas id="chartInscriptions"></canvas></div></div></div></div>
+{% endblock %}
+{% block extra_js %}<script>
+const chartFaculte = {{ etudiants_par_faculte|safe }};
+const chartInscriptions = {{ inscriptions_par_annee|safe }};
+new Chart(document.getElementById('chartFaculte'), { type: 'doughnut', data: { labels: chartFaculte.map(d => d.filiere__departement__faculte__nom || 'N/A'), datasets: [{ data: chartFaculte.map(d => d.total) }] } });
+new Chart(document.getElementById('chartInscriptions'), { type: 'bar', data: { labels: chartInscriptions.map(d => d.annee_inscription), datasets: [{ label: 'Inscriptions', data: chartInscriptions.map(d => d.total) }] }, options: { plugins: { legend: { display: false } } } });
+</script>{% endblock %}
