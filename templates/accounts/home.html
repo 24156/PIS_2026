@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Accueil - PIS{% endblock %}
+
+{% block auth_content %}
+<div class="container mt-5">
+    <!-- Hero Section -->
+    <div class="row align-items-center mb-5 pb-5">
+        <div class="col-lg-6">
+            <h1 class="display-4 fw-bold text-primary mb-3">Plateforme Intégrée de Scolarité (PIS)</h1>
+            <p class="lead text-muted mb-4">Gérez votre parcours académique de manière simple et intuitive. Accédez à vos cours, travaux dirigés, travaux pratiques, et restez en contact avec l'administration et vos enseignants.</p>
+            <a href="{% url 'accounts:login' %}" class="btn btn-primary btn-lg px-4 me-md-2 rounded-pill shadow-sm">Se connecter</a>
+        </div>
+        <div class="col-lg-6 mt-4 mt-lg-0 text-center">
+            <!-- Using an illustration/icon as placeholder since we don't have images ready -->
+            <div class="p-5 bg-light rounded-circle d-inline-flex align-items-center justify-content-center shadow" style="width: 300px; height: 300px;">
+                <i class="bi bi-mortarboard-fill text-primary" style="font-size: 8rem;"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Universities & Institutes Section -->
+    <div class="py-5 border-top">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Enseignement Supérieur en Mauritanie</h2>
+            <p class="text-muted">Découvrez les principales universités et instituts de notre pays.</p>
+        </div>
+        
+        <div class="row g-4">
+            <!-- University 1 -->
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 hover-lift">
+                    <div class="card-body p-4 text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-building fs-1 text-info"></i>
+                        </div>
+                        <h4 class="card-title fw-bold">Université de Nouakchott (UNA)</h4>
+                        <p class="card-text text-muted small">La plus grande université de Mauritanie, offrant des formations dans de multiples domaines : Sciences et Techniques, Médecine, Lettres, Droit, et Économie.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- University 2 -->
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 hover-lift">
+                    <div class="card-body p-4 text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-laptop fs-1 text-success"></i>
+                        </div>
+                        <h4 class="card-title fw-bold">Institut Supérieur de Comptabilité et d'Administration des Entreprises (ISCAE)</h4>
+                        <p class="card-text text-muted small">Un établissement d'excellence spécialisé dans la formation des cadres en gestion, finance et administration des affaires.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- University 3 -->
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 hover-lift">
+                    <div class="card-body p-4 text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-gear-wide-connected fs-1 text-warning"></i>
+                        </div>
+                        <h4 class="card-title fw-bold">École Supérieure Polytechnique (ESP)</h4>
+                        <p class="card-text text-muted small">L'institution de référence pour la formation des ingénieurs en Mauritanie, préparant l'élite technique du pays dans diverses filières de pointe.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <p class="text-muted small">La Plateforme Intégrée de Scolarité vise à accompagner ces institutions dans leur transformation numérique pour une meilleure gestion pédagogique et administrative.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-lift {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+</style>
+{% endblock %}

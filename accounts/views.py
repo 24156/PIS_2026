@@ -26,10 +26,19 @@ def login_view(request):
     form = LoginForm(request, data=request.POST or None)
     if request.method == 'POST' and form.is_valid():
         user = form.get_user()
+        if not user.is_active_user:
+            messages.error(request, 'Ce compte est désactivé. Contactez l\'administration.')
+            return render(request, 'accounts/login.html', {'form': form})
         auth_login(request, user)
         log_activity(user, 'Connexion à la plateforme', 'Authentification')
         return redirect('accounts:dashboard')
     return render(request, 'accounts/login.html', {'form': form})
+
+
+def home(request):
+    if request.user.is_authenticated:
+        return redirect('accounts:dashboard')
+    return render(request, 'accounts/home.html')
 
 
 def logout_view(request):

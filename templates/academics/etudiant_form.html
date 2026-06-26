@@ -4,7 +4,13 @@
 <h2 class="mb-4">{{ title }}</h2>
 <div class="card shadow-sm"><div class="card-body">
 <form method="post">{% csrf_token %}
-{% if not edit %}<div class="mb-3"><label class="form-label">Utilisateur étudiant</label><select name="user" class="form-select" required>{% for s in students %}<option value="{{ s.pk }}">{{ s.get_full_name|default:s.username }}</option>{% endfor %}</select></div>{% endif %}
+{% if not edit %}
+    {% if students %}
+    <div class="mb-3"><label class="form-label">Utilisateur étudiant</label><select name="user" class="form-select" required>{% for s in students %}<option value="{{ s.pk }}">{{ s.get_full_name|default:s.username }}</option>{% endfor %}</select></div>
+    {% else %}
+    <div class="alert alert-warning">Aucun compte étudiant disponible. Créez d'abord un utilisateur avec le rôle « Étudiant ».</div>
+    {% endif %}
+{% endif %}
 {% for field in form %}<div class="mb-3"><label class="form-label">{{ field.label }}</label>{{ field }}</div>{% endfor %}
 <button type="submit" class="btn btn-primary">Enregistrer</button>
 </form></div></div>

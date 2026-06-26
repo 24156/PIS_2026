@@ -13,11 +13,19 @@
             <h5>{{ item.titre }}</h5>
             <p class="text-muted small">{{ item.matiere.nom }}</p>
             <p>{{ item.description|truncatechars:80 }}</p>
+            {% if user.is_student and item.student_rendu and item.student_rendu.note is not None %}
+                <span class="badge bg-success">Note : {{ item.student_rendu.note }}/20</span>
+            {% elif user.is_student and item.student_rendu %}
+                <span class="badge bg-info">Rendu — en correction</span>
+            {% endif %}
         </div>
         <div class="card-footer bg-white d-flex gap-1 flex-wrap">
             {% if item.fichier %}<a href="{{ item.fichier.url }}" class="btn btn-sm btn-outline-secondary" target="_blank"><i class="bi bi-download"></i></a>{% endif %}
             {% if user.is_student %}<a href="{% url 'pedagogy:rendu_deposer_tp' item.pk %}" class="btn btn-sm btn-primary"><i class="bi bi-upload"></i> Rendre</a>{% endif %}
-            {% if user.is_admin or user.is_teacher %}<a href="{% url 'pedagogy:rendu_list_tp' item.pk %}" class="btn btn-sm btn-success"><i class="bi bi-inbox"></i> Rendus</a>{% endif %}
+            {% if user.is_admin or user.is_teacher %}
+            <a href="{% url 'pedagogy:rendu_list_tp' item.pk %}" class="btn btn-sm btn-success"><i class="bi bi-inbox"></i> Rendus</a>
+            <a href="{% url 'pedagogy:tp_delete' item.pk %}" class="btn btn-sm btn-outline-danger">Supprimer</a>
+            {% endif %}
         </div>
     </div>
 </div>

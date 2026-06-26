@@ -16,7 +16,10 @@
         </div>
         <div class="card-footer bg-white">
             {% if item.fichier %}<a href="{% url 'pedagogy:cours_download' item.pk %}" class="btn btn-sm btn-success"><i class="bi bi-download"></i> Télécharger</a>{% endif %}
-            {% if user.is_admin or user.is_teacher %}<a href="{% url 'pedagogy:cours_edit' item.pk %}" class="btn btn-sm btn-outline-primary">Modifier</a>{% endif %}
+            {% if user.is_admin or user.is_teacher %}
+            <a href="{% url 'pedagogy:cours_edit' item.pk %}" class="btn btn-sm btn-outline-primary">Modifier</a>
+            <a href="{% url 'pedagogy:cours_delete' item.pk %}" class="btn btn-sm btn-outline-danger">Supprimer</a>
+            {% endif %}
         </div>
     </div>
 </div>

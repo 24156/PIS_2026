@@ -7,6 +7,12 @@
 <h5>{{ item.titre }} <span class="badge bg-secondary">{{ item.get_priorite_display }}</span></h5>
 <p>{{ item.contenu }}</p>
 <small class="text-muted">{{ item.created_at|date:"d/m/Y" }} — {{ item.auteur.get_full_name|default:item.auteur.username }}</small>
+{% if user.is_admin or user.is_teacher %}
+<div class="mt-2">
+<a href="{% url 'communication:annonce_edit' item.pk %}" class="btn btn-sm btn-outline-primary">Modifier</a>
+<a href="{% url 'communication:annonce_delete' item.pk %}" class="btn btn-sm btn-outline-danger">Supprimer</a>
+</div>
+{% endif %}
 </div></div>
 {% empty %}<div class="alert alert-info">Aucune annonce.</div>{% endfor %}
 {% endblock %}

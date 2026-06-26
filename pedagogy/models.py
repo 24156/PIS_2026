@@ -34,6 +34,8 @@ class TravailDirige(models.Model):
     fichier = models.FileField('Fichier', upload_to='td/', blank=True, null=True)
     description = models.TextField('Description', blank=True)
     date_publication = models.DateField('Date de publication', auto_now_add=True)
+    date_fin = models.DateTimeField('Date de fin', null=True, blank=True)
+
 
     class Meta:
         verbose_name = 'Travail Dirigé (TD)'
@@ -53,6 +55,8 @@ class TravailPratique(models.Model):
     fichier = models.FileField('Fichier', upload_to='tp/', blank=True, null=True)
     description = models.TextField('Description', blank=True)
     date_publication = models.DateField('Date de publication', auto_now_add=True)
+    date_fin = models.DateTimeField('Date de fin', null=True, blank=True)
+
 
     class Meta:
         verbose_name = 'Travail Pratique (TP)'
@@ -65,6 +69,9 @@ class TravailPratique(models.Model):
 
 class RenduDevoir(models.Model):
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE, related_name='rendus')
+    matiere = models.ForeignKey(
+        Matiere, on_delete=models.SET_NULL, null=True, blank=True, related_name='rendus'
+    )
     td = models.ForeignKey(
         TravailDirige, on_delete=models.CASCADE, null=True, blank=True, related_name='rendus'
     )
@@ -76,12 +83,13 @@ class RenduDevoir(models.Model):
     note = models.DecimalField('Note', max_digits=5, decimal_places=2, null=True, blank=True)
     commentaire = models.TextField('Commentaire', blank=True)
     corrige_par = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        'academics.Enseignant',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name='rendus_corriges',
     )
+    date_correction = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'Rendu de devoir'
@@ -92,10 +100,6 @@ class RenduDevoir(models.Model):
         devoir = self.td or self.tp
         return f'{self.etudiant} — {devoir}'
 
-    def clean(self):
-        if bool(self.td) == bool(self.tp):
-            raise ValidationError('Un rendu doit être lié à un TD ou un TP, pas les deux ni aucun.')
-
     @property
     def devoir(self):
         return self.td or self.tp
@@ -103,3 +107,7 @@ class RenduDevoir(models.Model):
     @property
     def type_devoir(self):
         return 'TD' if self.td_id else 'TP'
+
+
+# Alias : permet d'utiliser Rendu ou RenduDevoir indifféremment dans le code
+Rendu = RenduDevoir

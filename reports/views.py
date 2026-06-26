@@ -62,7 +62,7 @@ def export_excel(request):
             e.annee_inscription,
         ])
 
-    ws2 = wb.create_sheet('Rendus TP/TD')
+    ws2 = wb.create_sheet('Rendus TP-TD')
     ws2.append(['Étudiant', 'Type', 'Devoir', 'Note', 'Date rendu'])
     for r in RenduDevoir.objects.select_related('etudiant__user', 'td', 'tp'):
         ws2.append([

@@ -14,6 +14,7 @@
                     <th>Matière</th>
                     <th>Enseignant</th>
                     <th>Publication</th>
+                    <th>Date Limite</th>
                     <th>Statut / Note</th>
                     <th>Actions</th>
                 </tr>
@@ -25,6 +26,15 @@
                     <td>{{ row.devoir.matiere.nom }}</td>
                     <td>{{ row.devoir.enseignant }}</td>
                     <td>{{ row.devoir.date_publication|date:"d/m/Y" }}</td>
+                    <td>
+                        {% if row.devoir.date_fin %}
+                            <span class="{% if now > row.devoir.date_fin %}text-danger fw-bold{% endif %}">
+                                {{ row.devoir.date_fin|date:"d/m/Y H:i" }}
+                            </span>
+                        {% else %}
+                            <span class="text-muted">Aucune</span>
+                        {% endif %}
+                    </td>
                     <td>
                         {% if row.rendu %}
                             {% if row.rendu.note is not None %}
@@ -41,9 +51,15 @@
                         {% if row.devoir.fichier %}
                         <a href="{{ row.devoir.fichier.url }}" class="btn btn-sm btn-outline-secondary" target="_blank"><i class="bi bi-download"></i></a>
                         {% endif %}
+                        {% if not row.devoir.date_fin or now <= row.devoir.date_fin %}
                         <a href="{% url 'pedagogy:rendu_deposer_td' row.devoir.pk %}" class="btn btn-sm btn-primary">
                             <i class="bi bi-upload"></i> Rendre
                         </a>
+                        {% else %}
+                        <button class="btn btn-sm btn-secondary" disabled>
+                            <i class="bi bi-x-circle"></i> Dépassé
+                        </button>
+                        {% endif %}
                     </td>
                 </tr>
                 {% empty %}
@@ -64,6 +80,7 @@
                     <th>Matière</th>
                     <th>Enseignant</th>
                     <th>Publication</th>
+                    <th>Date Limite</th>
                     <th>Statut / Note</th>
                     <th>Actions</th>
                 </tr>
@@ -75,6 +92,15 @@
                     <td>{{ row.devoir.matiere.nom }}</td>
                     <td>{{ row.devoir.enseignant }}</td>
                     <td>{{ row.devoir.date_publication|date:"d/m/Y" }}</td>
+                    <td>
+                        {% if row.devoir.date_fin %}
+                            <span class="{% if now > row.devoir.date_fin %}text-danger fw-bold{% endif %}">
+                                {{ row.devoir.date_fin|date:"d/m/Y H:i" }}
+                            </span>
+                        {% else %}
+                            <span class="text-muted">Aucune</span>
+                        {% endif %}
+                    </td>
                     <td>
                         {% if row.rendu %}
                             {% if row.rendu.note is not None %}
@@ -91,9 +117,15 @@
                         {% if row.devoir.fichier %}
                         <a href="{{ row.devoir.fichier.url }}" class="btn btn-sm btn-outline-secondary" target="_blank"><i class="bi bi-download"></i></a>
                         {% endif %}
+                        {% if not row.devoir.date_fin or now <= row.devoir.date_fin %}
                         <a href="{% url 'pedagogy:rendu_deposer_tp' row.devoir.pk %}" class="btn btn-sm btn-primary">
                             <i class="bi bi-upload"></i> Rendre
                         </a>
+                        {% else %}
+                        <button class="btn btn-sm btn-secondary" disabled>
+                            <i class="bi bi-x-circle"></i> Dépassé
+                        </button>
+                        {% endif %}
                     </td>
                 </tr>
                 {% empty %}

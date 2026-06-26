@@ -2,7 +2,10 @@
 {% block title %}Enseignants{% endblock %}
 {% block content %}
 <div class="d-flex justify-content-between mb-4"><h2>Enseignants</h2><a href="{% url 'academics:enseignant_create' %}" class="btn btn-primary">Ajouter</a></div>
-<table class="table table-striped"><thead><tr><th>Matricule</th><th>Nom</th><th>Département</th></tr></thead><tbody>
-{% for item in items %}<tr><td>{{ item.matricule }}</td><td>{{ item }}</td><td>{{ item.departement }}</td></tr>{% empty %}<tr><td colspan="3" class="text-muted">Aucun enseignant</td></tr>{% endfor %}
+<table class="table table-striped"><thead><tr><th>Matricule</th><th>Nom</th><th>Département</th><th>Actions</th></tr></thead><tbody>
+{% for item in items %}<tr><td>{{ item.matricule }}</td><td>{{ item }}</td><td>{{ item.departement }}</td><td>
+<a href="{% url 'academics:enseignant_edit' item.pk %}" class="btn btn-sm btn-outline-primary">Modifier</a>
+<a href="{% url 'academics:enseignant_delete' item.pk %}" class="btn btn-sm btn-outline-danger">Supprimer</a>
+</td></tr>{% empty %}<tr><td colspan="4" class="text-muted">Aucun enseignant</td></tr>{% endfor %}
 </tbody></table>
 {% endblock %}

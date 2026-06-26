@@ -5,6 +5,7 @@
 <table class="table table-striped"><thead><tr><th>Code</th><th>Nom</th><th>Faculté</th><th>Actions</th></tr></thead><tbody>
 {% for item in items %}<tr><td>{{ item.code }}</td><td>{{ item.nom }}</td><td>{{ item.faculte }}</td><td>
 <a href="{% url 'academics:departement_edit' item.pk %}" class="btn btn-sm btn-outline-primary">Modifier</a>
+<a href="{% url 'academics:departement_delete' item.pk %}" class="btn btn-sm btn-outline-danger">Supprimer</a>
 </td></tr>{% empty %}<tr><td colspan="4" class="text-muted">Aucun département</td></tr>{% endfor %}
 </tbody></table>
 {% endblock %}

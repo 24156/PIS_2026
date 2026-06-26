@@ -13,6 +13,9 @@
                     <h4 class="card-title">{{ devoir.titre }}</h4>
                     <p class="text-muted"><i class="bi bi-book"></i> Matière : {{ devoir.matiere.nom }}</p>
                     <p class="text-muted"><i class="bi bi-person"></i> Enseignant : {{ devoir.enseignant }}</p>
+                    {% if devoir.date_fin %}
+                    <p class="text-danger fw-bold"><i class="bi bi-clock"></i> Date limite : {{ devoir.date_fin|date:"d/m/Y H:i" }}</p>
+                    {% endif %}
                     
                     {% if devoir.description %}
                     <div class="alert alert-light border mb-4">

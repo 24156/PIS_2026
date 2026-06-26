@@ -1,8 +1,14 @@
 {% extends 'base.html' %}
 {% block title %}Étudiants{% endblock %}
 {% block content %}
-<h2 class="mb-4">Étudiants</h2>
-<table class="table table-striped"><thead><tr><th>Matricule</th><th>Nom</th><th>Filière</th><th>Niveau</th></tr></thead><tbody>
-{% for item in items %}<tr><td>{{ item.matricule }}</td><td>{{ item }}</td><td>{{ item.filiere }}</td><td>{{ item.niveau }}</td></tr>{% empty %}<tr><td colspan="4" class="text-muted">Aucun étudiant</td></tr>{% endfor %}
+<div class="d-flex justify-content-between mb-4">
+    <h2>Étudiants</h2>
+    {% if user.is_admin %}<a href="{% url 'academics:etudiant_create' %}" class="btn btn-primary">Ajouter</a>{% endif %}
+</div>
+<table class="table table-striped"><thead><tr><th>Matricule</th><th>Nom</th><th>Filière</th><th>Niveau</th>{% if user.is_admin %}<th>Actions</th>{% endif %}</tr></thead><tbody>
+{% for item in items %}<tr><td>{{ item.matricule }}</td><td>{{ item }}</td><td>{{ item.filiere }}</td><td>{{ item.niveau }}</td>{% if user.is_admin %}<td>
+<a href="{% url 'academics:etudiant_edit' item.pk %}" class="btn btn-sm btn-outline-primary">Modifier</a>
+<a href="{% url 'academics:etudiant_delete' item.pk %}" class="btn btn-sm btn-outline-danger">Supprimer</a>
+</td>{% endif %}</tr>{% empty %}<tr><td colspan="5" class="text-muted">Aucun étudiant</td></tr>{% endfor %}
 </tbody></table>
 {% endblock %}
