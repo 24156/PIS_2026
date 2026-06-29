@@ -7,6 +7,7 @@ from accounts.models import User
 
 from .forms import AnnonceForm, NotificationForm
 from .models import Annonce, Notification
+from django.db.models import ProtectedError
 
 
 @login_required
@@ -49,8 +50,13 @@ def annonce_edit(request, pk):
 def annonce_delete(request, pk):
     obj = get_object_or_404(Annonce, pk=pk)
     if request.method == 'POST':
-        obj.delete()
-        return redirect('communication:annonce_list')
+        try:
+            obj.delete()
+            messages.success(request, 'Annonce supprimée.')
+            return redirect('communication:annonce_list')
+        except ProtectedError:
+            messages.error(request, 'Impossible de supprimer cette annonce car elle est liée à d\'autres enregistrements.')
+            return redirect('communication:annonce_list')
     return render(request, 'communication/confirm_delete.html', {'object': obj, 'back_url': 'communication:annonce_list'})
 
 

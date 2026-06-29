@@ -8,6 +8,7 @@ from accounts.models import User
 
 from .forms import DocumentForm
 from .models import DocumentBibliotheque
+from django.db.models import ProtectedError
 
 
 @login_required
@@ -40,8 +41,13 @@ def document_create(request):
 def document_delete(request, pk):
     obj = get_object_or_404(DocumentBibliotheque, pk=pk)
     if request.method == 'POST':
-        obj.delete()
-        return redirect('library:document_list')
+        try:
+            obj.delete()
+            messages.success(request, 'Document supprimé.')
+            return redirect('library:document_list')
+        except ProtectedError:
+            messages.error(request, 'Impossible de supprimer ce document car il est lié à d\'autres enregistrements.')
+            return redirect('library:document_list')
     return render(request, 'library/confirm_delete.html', {'object': obj, 'back_url': 'library:document_list'})
 
 

@@ -10,6 +10,7 @@ from .forms import (
     FiliereForm, MatiereForm, NiveauEtudeForm,
 )
 from .models import Departement, Enseignant, Etudiant, Faculte, Filiere, Matiere, NiveauEtude
+from django.db.models import ProtectedError
 
 
 @login_required
@@ -48,9 +49,13 @@ def faculte_edit(request, pk):
 def faculte_delete(request, pk):
     obj = get_object_or_404(Faculte, pk=pk)
     if request.method == 'POST':
-        obj.delete()
-        messages.success(request, 'Faculté supprimée.')
-        return redirect('academics:faculte_list')
+        try:
+            obj.delete()
+            messages.success(request, 'Faculté supprimée.')
+            return redirect('academics:faculte_list')
+        except ProtectedError:
+            messages.error(request, "Impossible de supprimer cette faculté car elle est liée à d'autres enregistrements (ex: départements).")
+            return redirect('academics:faculte_list')
     return render(request, 'academics/confirm_delete.html', {'object': obj, 'back_url': 'academics:faculte_list'})
 
 
@@ -90,9 +95,13 @@ def departement_edit(request, pk):
 def departement_delete(request, pk):
     obj = get_object_or_404(Departement, pk=pk)
     if request.method == 'POST':
-        obj.delete()
-        messages.success(request, 'Département supprimé.')
-        return redirect('academics:departement_list')
+        try:
+            obj.delete()
+            messages.success(request, 'Département supprimé.')
+            return redirect('academics:departement_list')
+        except ProtectedError:
+            messages.error(request, "Impossible de supprimer ce département car il est lié à d'autres enregistrements.")
+            return redirect('academics:departement_list')
     return render(request, 'academics/confirm_delete.html', {'object': obj, 'back_url': 'academics:departement_list'})
 
 
@@ -132,9 +141,13 @@ def filiere_edit(request, pk):
 def filiere_delete(request, pk):
     obj = get_object_or_404(Filiere, pk=pk)
     if request.method == 'POST':
-        obj.delete()
-        messages.success(request, 'Filière supprimée.')
-        return redirect('academics:filiere_list')
+        try:
+            obj.delete()
+            messages.success(request, 'Filière supprimée.')
+            return redirect('academics:filiere_list')
+        except ProtectedError:
+            messages.error(request, "Impossible de supprimer cette filière car elle est liée à d'autres enregistrements.")
+            return redirect('academics:filiere_list')
     return render(request, 'academics/confirm_delete.html', {'object': obj, 'back_url': 'academics:filiere_list'})
 
 
@@ -173,9 +186,13 @@ def niveau_edit(request, pk):
 def niveau_delete(request, pk):
     obj = get_object_or_404(NiveauEtude, pk=pk)
     if request.method == 'POST':
-        obj.delete()
-        messages.success(request, 'Niveau supprimé.')
-        return redirect('academics:niveau_list')
+        try:
+            obj.delete()
+            messages.success(request, 'Niveau supprimé.')
+            return redirect('academics:niveau_list')
+        except ProtectedError:
+            messages.error(request, "Impossible de supprimer ce niveau car il est lié à d'autres enregistrements.")
+            return redirect('academics:niveau_list')
     return render(request, 'academics/confirm_delete.html', {'object': obj, 'back_url': 'academics:niveau_list'})
 
 
@@ -215,9 +232,13 @@ def matiere_edit(request, pk):
 def matiere_delete(request, pk):
     obj = get_object_or_404(Matiere, pk=pk)
     if request.method == 'POST':
-        obj.delete()
-        messages.success(request, 'Matière supprimée.')
-        return redirect('academics:matiere_list')
+        try:
+            obj.delete()
+            messages.success(request, 'Matière supprimée.')
+            return redirect('academics:matiere_list')
+        except ProtectedError:
+            messages.error(request, "Impossible de supprimer cette matière car elle est liée à d'autres enregistrements.")
+            return redirect('academics:matiere_list')
     return render(request, 'academics/confirm_delete.html', {'object': obj, 'back_url': 'academics:matiere_list'})
 
 
@@ -264,9 +285,13 @@ def enseignant_edit(request, pk):
 def enseignant_delete(request, pk):
     obj = get_object_or_404(Enseignant, pk=pk)
     if request.method == 'POST':
-        obj.delete()
-        messages.success(request, 'Enseignant supprimé.')
-        return redirect('academics:enseignant_list')
+        try:
+            obj.delete()
+            messages.success(request, 'Enseignant supprimé.')
+            return redirect('academics:enseignant_list')
+        except ProtectedError:
+            messages.error(request, "Impossible de supprimer cet enseignant car il est lié à d'autres enregistrements.")
+            return redirect('academics:enseignant_list')
     return render(request, 'academics/confirm_delete.html', {'object': obj, 'back_url': 'academics:enseignant_list'})
 
 
@@ -315,7 +340,11 @@ def etudiant_edit(request, pk):
 def etudiant_delete(request, pk):
     obj = get_object_or_404(Etudiant, pk=pk)
     if request.method == 'POST':
-        obj.delete()
-        messages.success(request, 'Étudiant supprimé.')
-        return redirect('academics:etudiant_list')
+        try:
+            obj.delete()
+            messages.success(request, 'Étudiant supprimé.')
+            return redirect('academics:etudiant_list')
+        except ProtectedError:
+            messages.error(request, "Impossible de supprimer cet étudiant car il est lié à d'autres enregistrements.")
+            return redirect('academics:etudiant_list')
     return render(request, 'academics/confirm_delete.html', {'object': obj, 'back_url': 'academics:etudiant_list'})

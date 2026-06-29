@@ -12,6 +12,7 @@ from academics.models import (
     Departement, Enseignant, Etudiant, Faculte, Filiere, Matiere, NiveauEtude,
 )
 from communication.models import Annonce
+from django.db.models import ProtectedError
 from pedagogy.models import Cours, RenduDevoir, TravailDirige, TravailPratique
 from schedule.models import EmploiDuTemps
 
@@ -196,9 +197,12 @@ def user_delete(request, pk):
             messages.error(request, 'Vous ne pouvez pas supprimer votre propre compte.')
         else:
             username = user.username
-            user.delete()
-            log_activity(request.user, f'Suppression utilisateur {username}', 'Utilisateurs')
-            messages.success(request, 'Utilisateur supprimé.')
+            try:
+                user.delete()
+                log_activity(request.user, f'Suppression utilisateur {username}', 'Utilisateurs')
+                messages.success(request, 'Utilisateur supprimé.')
+            except ProtectedError:
+                messages.error(request, 'Impossible de supprimer cet utilisateur car il est lié à d\'autres enregistrements.')
         return redirect('accounts:user_list')
     return render(request, 'accounts/confirm_delete.html', {'object': user, 'type': 'utilisateur'})
 

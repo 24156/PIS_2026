@@ -9,6 +9,7 @@ from accounts.decorators import log_activity
 
 from .forms import CoursForm, RenduForm, RenduGradeForm, TDForm, TPForm
 from .models import Cours, Rendu, TravailDirige, TravailPratique
+from django.db.models import ProtectedError
 
 
 # ---------------------------------------------------------------------------
@@ -113,9 +114,13 @@ def cours_delete(request, pk):
         messages.error(request, 'Permission refusée.')
         return redirect('pedagogy:cours_list')
     if request.method == 'POST':
-        obj.delete()
-        messages.success(request, 'Cours supprimé.')
-        return redirect('pedagogy:cours_list')
+        try:
+            obj.delete()
+            messages.success(request, 'Cours supprimé.')
+            return redirect('pedagogy:cours_list')
+        except ProtectedError:
+            messages.error(request, 'Impossible de supprimer ce cours car il est lié à d\'autres enregistrements.')
+            return redirect('pedagogy:cours_list')
     return render(request, 'pedagogy/confirm_delete.html', {
         'object': obj, 'back_url': 'pedagogy:cours_list'
     })
@@ -220,9 +225,13 @@ def td_delete(request, pk):
         messages.error(request, 'Permission refusée.')
         return redirect('pedagogy:td_list')
     if request.method == 'POST':
-        obj.delete()
-        messages.success(request, 'TD supprimé.')
-        return redirect('pedagogy:td_list')
+        try:
+            obj.delete()
+            messages.success(request, 'TD supprimé.')
+            return redirect('pedagogy:td_list')
+        except ProtectedError:
+            messages.error(request, 'Impossible de supprimer ce TD car il est lié à d\'autres enregistrements.')
+            return redirect('pedagogy:td_list')
     return render(request, 'pedagogy/confirm_delete.html', {
         'object': obj, 'back_url': 'pedagogy:td_list'
     })
@@ -282,9 +291,13 @@ def tp_delete(request, pk):
         messages.error(request, 'Permission refusée.')
         return redirect('pedagogy:tp_list')
     if request.method == 'POST':
-        obj.delete()
-        messages.success(request, 'TP supprimé.')
-        return redirect('pedagogy:tp_list')
+        try:
+            obj.delete()
+            messages.success(request, 'TP supprimé.')
+            return redirect('pedagogy:tp_list')
+        except ProtectedError:
+            messages.error(request, 'Impossible de supprimer ce TP car il est lié à d\'autres enregistrements.')
+            return redirect('pedagogy:tp_list')
     return render(request, 'pedagogy/confirm_delete.html', {
         'object': obj, 'back_url': 'pedagogy:tp_list'
     })
